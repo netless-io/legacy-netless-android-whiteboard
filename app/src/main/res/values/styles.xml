@@ -7,5 +7,17 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    
+    <style name="PrimaryButton">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:layout_height">47dp</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:borderlessButtonStyle">@color/colorPrimaryDark</item>
+        <item name="android:layout_height">47dp</item>
+    </style>
 
 </resources>

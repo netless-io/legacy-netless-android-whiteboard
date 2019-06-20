@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NetlessWhiteboard</string>
+    <string name="create_whiteboard">创建白板</string>
+    <string name="join_whiteboard">加入白板</string>
 </resources>
