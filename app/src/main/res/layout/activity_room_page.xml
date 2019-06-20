@@ -15,9 +15,9 @@
     <Button
         style="@style/RoundButton"
         android:id="@+id/btnGoBack"
-        android:layout_marginStart="13dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="13dp"
-        android:paddingStart="14dp"
+        android:paddingStart="10dp"
         android:paddingEnd="0dp"
         android:drawableStart="@drawable/ic_tool_back"/>
 
@@ -26,8 +26,8 @@
         android:id="@+id/btnInvite"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="13dp"
-        android:layout_marginEnd="13dp"
-        android:paddingStart="12dp"
+        android:layout_marginEnd="8dp"
+        android:paddingStart="8dp"
         android:paddingEnd="0dp"
         android:drawableStart="@drawable/ic_tool_add"/>
 
@@ -37,8 +37,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignEnd="@id/btnCamera"
         android:layout_marginTop="13dp"
-        android:layout_marginEnd="70dp"
-        android:paddingStart="12dp"
+        android:layout_marginEnd="57dp"
+        android:paddingStart="8.5dp"
         android:paddingEnd="0dp"
         android:drawableStart="@drawable/ic_tool_board"/>
 
@@ -48,8 +48,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="23dp"
-        android:layout_marginEnd="13dp"
-        android:paddingStart="12dp"
+        android:layout_marginEnd="8dp"
+        android:paddingStart="8dp"
         android:paddingEnd="0dp"
         android:drawableStart="@drawable/ic_tool_annex"/>
 
@@ -59,18 +59,65 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="23dp"
         android:layout_marginEnd="13dp"
-        android:layout_width="200dp"
-        android:layout_height="40dp">
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_width="264dp"
+        android:layout_height="32dp">
 
         <Button
             style="@style/ToolButton"
-            android:layout_gravity="center"
+            android:id="@+id/btnSelector"
+            android:drawableStart="@drawable/ic_appliance_selector"
+            android:paddingStart="11dp"
+            android:paddingEnd="0dp"
+            android:layout_height="match_parent"/>
+
+        <Button
+            style="@style/ToolButton"
+            android:id="@+id/btnPencil"
             android:drawableStart="@drawable/ic_appliance_pencil"
+            android:paddingStart="11dp"
+            android:paddingEnd="0dp"
+            android:layout_height="match_parent"/>
+
+        <Button
+            style="@style/ToolButton"
+            android:id="@+id/btnText"
+            android:drawableStart="@drawable/ic_appliance_text"
+            android:paddingStart="11dp"
+            android:paddingEnd="0dp"
+            android:layout_height="match_parent"/>
+
+        <Button
+            style="@style/ToolButton"
+            android:id="@+id/btnUpload"
+            android:drawableStart="@drawable/ic_appliance_upload"
             android:paddingStart="13dp"
             android:paddingEnd="0dp"
-            android:background="@color/colorNil"
-            android:layout_width="40dp"
-            android:stateListAnimator="@null"
+            android:layout_height="match_parent"/>
+
+        <Button
+            style="@style/ToolButton"
+            android:id="@+id/btnEraser"
+            android:drawableStart="@drawable/ic_appliance_eraser"
+            android:paddingStart="13dp"
+            android:paddingEnd="0dp"
+            android:layout_height="match_parent"/>
+
+        <Button
+            style="@style/ToolButton"
+            android:id="@+id/btnEllipse"
+            android:drawableStart="@drawable/ic_appliance_ellipse"
+            android:paddingStart="13dp"
+            android:paddingEnd="0dp"
+            android:layout_height="match_parent"/>
+
+        <Button
+            style="@style/ToolButton"
+            android:id="@+id/btnRectangle"
+            android:drawableStart="@drawable/ic_appliance_rectangle"
+            android:paddingStart="13dp"
+            android:paddingEnd="0dp"
             android:layout_height="match_parent"/>
 
     </LinearLayout>
