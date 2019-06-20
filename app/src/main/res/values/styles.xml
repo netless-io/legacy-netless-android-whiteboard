@@ -20,4 +20,17 @@
         <item name="android:layout_height">47dp</item>
     </style>
 
+    <style name="RoundButton">
+        <item name="android:background">@drawable/ic_round_button</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
+    <style name="PrimaryRoundButton">
+        <item name="android:background">@drawable/ic_primary_round_button</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
 </resources>
