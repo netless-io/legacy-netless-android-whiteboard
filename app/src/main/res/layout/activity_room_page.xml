@@ -54,6 +54,7 @@
         android:drawableStart="@drawable/ic_tool_annex"/>
 
     <LinearLayout
+        android:id="@+id/appliancesToolbar"
         android:background="@drawable/toolbox_background"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"

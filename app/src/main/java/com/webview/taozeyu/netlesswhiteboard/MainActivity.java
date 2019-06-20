@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("uuid", uuid);
                         intent.putExtra("roomToken", roomToken);
                         MainActivity.this.startActivity(intent);
+                        setEnableButtons(true);
                     }
                 });
             }
@@ -59,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        MainActivity.this.setEnableButtons(true);
                         MainActivity.this.alert("创建房间失败", errorMessage);
+                        MainActivity.this.setEnableButtons(true);
                     }
                 });
             }

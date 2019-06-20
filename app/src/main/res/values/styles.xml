@@ -21,7 +21,7 @@
     </style>
 
     <style name="RoundButton">
-        <item name="android:background">@drawable/ic_round_button</item>
+        <item name="android:background">@drawable/round_button</item>
         <item name="android:layout_width">32dp</item>
         <item name="android:layout_height">32dp</item>
     </style>
