@@ -33,4 +33,10 @@
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
+    <style name="ToolButton">
+        <item name="android:background">@color/colorNil</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+
 </resources>
