@@ -15,7 +15,10 @@ public class RoomPageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_room_page);
+
         WhiteBroadView whiteBroadView = findViewById(R.id.whiteboard);
         WhiteSdkConfiguration configuration = new WhiteSdkConfiguration(DeviceType.touch, 10, 0.1);
 
