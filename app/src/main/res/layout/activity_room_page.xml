@@ -75,72 +75,7 @@
             android:paddingEnd="0dp"
             android:drawableStart="@drawable/ic_tool_annex"/>
 
-        <LinearLayout
-            android:background="@drawable/toolbox_background"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:layout_width="264dp"
-            android:layout_height="32dp">
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnSelector"
-                android:drawableStart="@drawable/ic_appliance_selector"
-                android:paddingStart="11dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnPencil"
-                android:drawableStart="@drawable/ic_appliance_pencil"
-                android:paddingStart="11dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnText"
-                android:drawableStart="@drawable/ic_appliance_text"
-                android:paddingStart="11dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnUpload"
-                android:drawableStart="@drawable/ic_appliance_upload"
-                android:paddingStart="13dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnEraser"
-                android:drawableStart="@drawable/ic_appliance_eraser"
-                android:paddingStart="13dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnEllipse"
-                android:drawableStart="@drawable/ic_appliance_ellipse"
-                android:paddingStart="13dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnRectangle"
-                android:drawableStart="@drawable/ic_appliance_rectangle"
-                android:paddingStart="13dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-        </LinearLayout>
+        <include layout="@layout/appliance_toolbar"/>
 
     </RelativeLayout>
 
