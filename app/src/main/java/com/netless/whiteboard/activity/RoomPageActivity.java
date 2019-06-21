@@ -54,6 +54,7 @@ public class RoomPageActivity extends AppCompatActivity {
             this.put("selector", (Button) findViewById(R.id.btnSelector));
             this.put("pencil", (Button) findViewById(R.id.btnPencil));
             this.put("eraser", (Button) findViewById(R.id.btnEraser));
+            this.put("text", (Button) findViewById(R.id.btnText));
             this.put("ellipse", (Button) findViewById(R.id.btnEllipse));
             this.put("rectangle", (Button) findViewById(R.id.btnRectangle));
         }});
