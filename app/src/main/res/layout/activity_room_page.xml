@@ -29,13 +29,6 @@
         android:layout_height="32dp">
 
         <Button
-            style="@style/RoundButton"
-            android:id="@+id/btnGoBack"
-            android:paddingStart="10dp"
-            android:paddingEnd="0dp"
-            android:drawableStart="@drawable/ic_tool_back"/>
-
-        <Button
             style="@style/PrimaryRoundButton"
             android:id="@+id/btnInvite"
             android:layout_alignParentEnd="true"
@@ -54,6 +47,15 @@
             android:drawableStart="@drawable/ic_tool_board"/>
 
     </RelativeLayout>
+
+    <Button
+        style="@style/RoundButton"
+        android:id="@+id/btnGoBack"
+        android:paddingStart="10dp"
+        android:paddingEnd="0dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="8dp"
+        android:drawableStart="@drawable/ic_tool_back"/>
 
     <RelativeLayout
         android:id="@+id/panBottomBar"
