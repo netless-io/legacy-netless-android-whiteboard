@@ -4,6 +4,7 @@ import com.herewhite.sdk.*;
 import com.herewhite.sdk.domain.*;
 import com.netless.whiteboard.R;
 import com.netless.whiteboard.components.AppliancesTooBar;
+import com.netless.whiteboard.components.BroadcastManager;
 
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class RoomPageActivity extends AppCompatActivity {
     private WhiteSdk whiteSdk;
     private Room room;
     private AppliancesTooBar appliancesTooBar;
+    private BroadcastManager broadcastManager;
 
     private ProgressBar icoLoading;
     private View panTopBar;
@@ -65,6 +67,8 @@ public class RoomPageActivity extends AppCompatActivity {
             this.put("ellipse", (Button) findViewById(R.id.btnEllipse));
             this.put("rectangle", (Button) findViewById(R.id.btnRectangle));
         }});
+        this.broadcastManager = new BroadcastManager(this, this.btnCamera);
+
         this.icoLoading.getIndeterminateDrawable().setColorFilter(
                         getResources().getColor(R.color.colorGrayBorder),
                         android.graphics.PorterDuff.Mode.SRC_IN);
@@ -95,6 +99,8 @@ public class RoomPageActivity extends AppCompatActivity {
             @Override
             public void onRoomStateChanged(RoomState modifyState) {
                 MemberState memberState = modifyState.getMemberState();
+                BroadcastState broadcastState = modifyState.getBroadcastState();
+
                 if (memberState != null) {
                     final String applianceName = memberState.getCurrentApplianceName();
                     final int[] sdkColor = memberState.getStrokeColor();
@@ -106,17 +112,38 @@ public class RoomPageActivity extends AppCompatActivity {
                         }
                     });
                 }
+                if (broadcastState != null) {
+                    final ViewMode viewMode = broadcastState.getMode();
+                    final boolean hasBroadcaster = broadcastState.getBroadcasterInformation() != null;
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            broadcastManager.setState(viewMode, hasBroadcaster);
+                        }
+                    });
+                }
             }
         }, new Promise<Room>() {
 
             @Override
-            public void then(Room room) {
-                setupRoom(room);
+            public void then(final Room room) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setupRoom(room);
+                    }
+                });
             }
 
             @Override
-            public void catchEx(SDKError sdkError) {
-                showToast(sdkError.getMessage());
+            public void catchEx(final SDKError sdkError) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast(sdkError.getMessage());
+                    }
+                });
             }
         });
 
@@ -137,6 +164,7 @@ public class RoomPageActivity extends AppCompatActivity {
     private void setupRoom(Room room) {
         this.room = room;
         this.appliancesTooBar.setRoom(room);
+        this.broadcastManager.setRoom(room);
 
         if (this.didLeave) {
             room.disconnect();
@@ -149,6 +177,20 @@ public class RoomPageActivity extends AppCompatActivity {
                     String applianceName = memberState.getCurrentApplianceName();
                     int[] sdkColor = memberState.getStrokeColor();
                     appliancesTooBar.setState(applianceName, sdkColor);
+                }
+
+                @Override
+                public void catchEx(SDKError sdkError) {
+                    showToast(sdkError.getMessage());
+                }
+            });
+            room.getBroadcastState(new Promise<BroadcastState>() {
+
+                @Override
+                public void then(BroadcastState broadcastState) {
+                    final ViewMode viewMode = broadcastState.getMode();
+                    final boolean hasBroadcaster = broadcastState.getBroadcasterInformation() != null;
+                    broadcastManager.setState(viewMode, hasBroadcaster);
                 }
 
                 @Override
@@ -187,11 +229,12 @@ public class RoomPageActivity extends AppCompatActivity {
             room.disconnect();
         }
         this.didLeave = true;
+        this.broadcastManager.dispose();
         this.finish();
     }
 
     private void onClickSlides() {
-        panMain.openDrawer(Gravity.RIGHT);
+        panMain.openDrawer(Gravity.END);
     }
 
     private void onRoomPhaseChange(RoomPhase phase) {
