@@ -1,4 +1,4 @@
-package com.webview.taozeyu.netlesswhiteboard;
+package com.netless.whiteboard;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

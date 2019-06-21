@@ -1,4 +1,4 @@
-package com.webview.taozeyu.netlesswhiteboard;
+package com.netless.whiteboard;
 
 import org.junit.Test;
 

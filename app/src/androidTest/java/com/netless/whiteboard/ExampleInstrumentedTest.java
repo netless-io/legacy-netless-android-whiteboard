@@ -1,4 +1,4 @@
-package com.webview.taozeyu.netlesswhiteboard;
+package com.netless.whiteboard;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.webview.taozeyu.netlesswhiteboard", appContext.getPackageName());
+        assertEquals("com.netless.whiteboard", appContext.getPackageName());
     }
 }

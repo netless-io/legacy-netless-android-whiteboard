@@ -1,4 +1,4 @@
-package com.webview.taozeyu.netlesswhiteboard;
+package com.netless.whiteboard;
 
 import com.herewhite.sdk.*;
 import com.herewhite.sdk.domain.*;
