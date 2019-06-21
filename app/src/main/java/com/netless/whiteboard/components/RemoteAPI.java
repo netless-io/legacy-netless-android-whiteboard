@@ -1,4 +1,4 @@
-package com.netless.whiteboard;
+package com.netless.whiteboard.components;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

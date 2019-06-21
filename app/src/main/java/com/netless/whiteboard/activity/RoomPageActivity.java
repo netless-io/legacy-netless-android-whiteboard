@@ -1,9 +1,9 @@
-package com.netless.whiteboard;
+package com.netless.whiteboard.activity;
 
 import com.herewhite.sdk.*;
 import com.herewhite.sdk.domain.*;
+import com.netless.whiteboard.R;
 
-import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
