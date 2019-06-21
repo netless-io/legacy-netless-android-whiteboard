@@ -5,12 +5,15 @@ import com.herewhite.sdk.domain.*;
 import com.netless.whiteboard.R;
 import com.netless.whiteboard.components.AppliancesTooBar;
 
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -26,6 +29,8 @@ public class RoomPageActivity extends AppCompatActivity {
     private ProgressBar icoLoading;
     private View panTopBar;
     private View panBottomBar;
+    private DrawerLayout panMain;
+    private RelativeLayout panSlides;
 
     private Button btnGoBack;
     private Button btnInvite;
@@ -43,6 +48,8 @@ public class RoomPageActivity extends AppCompatActivity {
         this.icoLoading = findViewById(R.id.icoLoading);
         this.panTopBar = findViewById(R.id.panTopBar);
         this.panBottomBar = findViewById(R.id.panBottomBar);
+        this.panMain = findViewById(R.id.activity_main);
+        this.panSlides = findViewById(R.id.panSlides);
 
         this.btnGoBack = findViewById(R.id.btnGoBack);
         this.btnInvite = findViewById(R.id.btnInvite);
@@ -76,8 +83,13 @@ public class RoomPageActivity extends AppCompatActivity {
         this.whiteSdk.joinRoom(roomParams, new AbstractRoomCallbacks() {
 
             @Override
-            public void onPhaseChanged(RoomPhase phase) {
-                onRoomPhaseChange(phase);
+            public void onPhaseChanged(final RoomPhase phase) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        onRoomPhaseChange(phase);
+                    }
+                });
             }
 
             @Override
@@ -112,6 +124,12 @@ public class RoomPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onClickGoBack();
+            }
+        });
+        this.btnSlides.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickSlides();
             }
         });
     }
@@ -170,6 +188,10 @@ public class RoomPageActivity extends AppCompatActivity {
         }
         this.didLeave = true;
         this.finish();
+    }
+
+    private void onClickSlides() {
+        panMain.openDrawer(Gravity.RIGHT);
     }
 
     private void onRoomPhaseChange(RoomPhase phase) {
