@@ -5,15 +5,21 @@ import com.herewhite.sdk.domain.*;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 public class RoomPageActivity extends AppCompatActivity {
 
+    private boolean didLeave = false;
+
     private WhiteSdk whiteSdk;
     private Room room;
-    private boolean didLeave = false;
+
+    private View appliancesToolbar;
+    private View panTopBar;
+    private View panBottomBar;
 
     private Button btnGoBack;
     private Button btnInvite;
@@ -21,7 +27,6 @@ public class RoomPageActivity extends AppCompatActivity {
     private Button btnSlides;
     private Button btnUpload;
 
-    private View appliancesToolbar;
     private Button btnSelector;
     private Button btnPencil;
     private Button btnText;
@@ -36,13 +41,16 @@ public class RoomPageActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_room_page);
 
+        this.appliancesToolbar = findViewById(R.id.appliancesToolbar);
+        this.panTopBar = findViewById(R.id.panTopBar);
+        this.panBottomBar = findViewById(R.id.panBottomBar);
+
         this.btnGoBack = findViewById(R.id.btnGoBack);
         this.btnInvite = findViewById(R.id.btnInvite);
         this.btnCamera = findViewById(R.id.btnCamera);
         this.btnSlides = findViewById(R.id.btnSlides);
         this.btnUpload = findViewById(R.id.btnUpload);
 
-        this.appliancesToolbar = findViewById(R.id.appliancesToolbar);
         this.btnSelector = findViewById(R.id.btnSelector);
         this.btnPencil = findViewById(R.id.btnPencil);
         this.btnText = findViewById(R.id.btnText);
@@ -93,7 +101,18 @@ public class RoomPageActivity extends AppCompatActivity {
     }
 
     private void setButtonsEnable(boolean enable) {
+        int translationDistanceDP = 60;
+        float translationDistance = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, translationDistanceDP, this.getResources().getDisplayMetrics()
+        );
         if (!this.didLeave) {
+            if (enable) {
+                this.panTopBar.setTranslationY(0);
+                this.panBottomBar.setTranslationY(0);
+            } else {
+                this.panTopBar.setTranslationY(- translationDistance);
+                this.panBottomBar.setTranslationY(translationDistance);
+            }
             this.btnInvite.setEnabled(enable);
             this.btnCamera.setEnabled(enable);
             this.btnSlides.setEnabled(enable);
