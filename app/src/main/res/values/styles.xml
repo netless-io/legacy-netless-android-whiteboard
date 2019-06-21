@@ -1,0 +1,44 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    
+    <style name="PrimaryButton">
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:layout_height">47dp</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:borderlessButtonStyle">@color/colorPrimaryDark</item>
+        <item name="android:layout_height">47dp</item>
+    </style>
+
+    <style name="RoundButton">
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+    </style>
+
+    <style name="PrimaryRoundButton">
+        <item name="android:background">@drawable/ic_primary_round_button</item>
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="ToolButton">
+        <item name="android:background">@color/colorNil</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:layout_width">36dp</item>
+    </style>
+
+
+</resources>
