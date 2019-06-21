@@ -3,11 +3,13 @@ package com.netless.whiteboard;
 import com.herewhite.sdk.*;
 import com.herewhite.sdk.domain.*;
 
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class RoomPageActivity extends AppCompatActivity {
@@ -17,6 +19,7 @@ public class RoomPageActivity extends AppCompatActivity {
     private WhiteSdk whiteSdk;
     private Room room;
 
+    private ProgressBar icoLoading;
     private View appliancesToolbar;
     private View panTopBar;
     private View panBottomBar;
@@ -42,6 +45,7 @@ public class RoomPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_room_page);
 
         this.appliancesToolbar = findViewById(R.id.appliancesToolbar);
+        this.icoLoading = findViewById(R.id.icoLoading);
         this.panTopBar = findViewById(R.id.panTopBar);
         this.panBottomBar = findViewById(R.id.panBottomBar);
 
@@ -57,6 +61,10 @@ public class RoomPageActivity extends AppCompatActivity {
         this.btnEraser = findViewById(R.id.btnEraser);
         this.btnEllipse = findViewById(R.id.btnEllipse);
         this.btnRectangle = findViewById(R.id.btnRectangle);
+
+        this.icoLoading.getIndeterminateDrawable().setColorFilter(
+                        getResources().getColor(R.color.colorGrayBorder),
+                        android.graphics.PorterDuff.Mode.SRC_IN);
 
         this.setButtonsEnable(false);
 
@@ -101,17 +109,19 @@ public class RoomPageActivity extends AppCompatActivity {
     }
 
     private void setButtonsEnable(boolean enable) {
-        int translationDistanceDP = 60;
-        float translationDistance = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, translationDistanceDP, this.getResources().getDisplayMetrics()
-        );
         if (!this.didLeave) {
             if (enable) {
                 this.panTopBar.setTranslationY(0);
                 this.panBottomBar.setTranslationY(0);
+                this.icoLoading.setVisibility(View.INVISIBLE);
             } else {
+                int translationDistanceDP = 60;
+                float translationDistance = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP, translationDistanceDP, this.getResources().getDisplayMetrics()
+                );
                 this.panTopBar.setTranslationY(- translationDistance);
                 this.panBottomBar.setTranslationY(translationDistance);
+                this.icoLoading.setVisibility(View.VISIBLE);
             }
             this.btnInvite.setEnabled(enable);
             this.btnCamera.setEnabled(enable);

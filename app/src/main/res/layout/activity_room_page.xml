@@ -13,6 +13,13 @@
         android:layout_alignParentTop="true"
         android:visibility="visible"/>
 
+    <ProgressBar
+        android:id="@+id/icoLoading"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"/>
+
     <RelativeLayout
         android:id="@+id/panTopBar"
         android:layout_width="match_parent"
