@@ -50,7 +50,7 @@ public class RoomPageActivity extends AppCompatActivity {
         this.btnSlides = findViewById(R.id.btnSlides);
         this.btnUpload = findViewById(R.id.btnUpload);
 
-        this.appliancesTooBar = new AppliancesTooBar("pencil", new HashMap<String, Button>() {{
+        this.appliancesTooBar = new AppliancesTooBar(new HashMap<String, Button>() {{
             this.put("selector", (Button) findViewById(R.id.btnSelector));
             this.put("pencil", (Button) findViewById(R.id.btnPencil));
             this.put("eraser", (Button) findViewById(R.id.btnEraser));
@@ -84,17 +84,17 @@ public class RoomPageActivity extends AppCompatActivity {
             public void onRoomStateChanged(RoomState modifyState) {
                 MemberState memberState = modifyState.getMemberState();
                 if (memberState != null) {
-                    appliancesTooBar.setCurrentApplianceName(memberState.getCurrentApplianceName());
+                    String applianceName = memberState.getCurrentApplianceName();
+                    int[] sdkColor = memberState.getStrokeColor();
+
+                    appliancesTooBar.setState(applianceName, sdkColor);
                 }
             }
         }, new Promise<Room>() {
 
             @Override
             public void then(Room room) {
-                RoomPageActivity.this.room = room;
-                if (RoomPageActivity.this.didLeave) {
-                    room.disconnect();
-                }
+                setupRoom(room);
             }
 
             @Override
@@ -109,6 +109,31 @@ public class RoomPageActivity extends AppCompatActivity {
                 onClickGoBack();
             }
         });
+    }
+
+    private void setupRoom(Room room) {
+        this.room = room;
+        this.appliancesTooBar.setRoom(room);
+
+        if (this.didLeave) {
+            room.disconnect();
+
+        } else {
+            room.getMemberState(new Promise<MemberState>() {
+
+                @Override
+                public void then(MemberState memberState) {
+                    String applianceName = memberState.getCurrentApplianceName();
+                    int[] sdkColor = memberState.getStrokeColor();
+                    appliancesTooBar.setState(applianceName, sdkColor);
+                }
+
+                @Override
+                public void catchEx(SDKError sdkError) {
+                    showToast(sdkError.getMessage());
+                }
+            });
+        }
     }
 
     private void setButtonsEnable(boolean enable) {
