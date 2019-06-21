@@ -2,4 +2,7 @@
     <string name="app_name">NetlessWhiteboard</string>
     <string name="create_whiteboard">创建白板</string>
     <string name="join_whiteboard">加入白板</string>
+    <string name="copy">复制</string>
+    <string name="qr_code">二维码</string>
+    <string name="ok">确定</string>
 </resources>

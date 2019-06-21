@@ -5,6 +5,7 @@ import com.herewhite.sdk.domain.*;
 import com.netless.whiteboard.R;
 import com.netless.whiteboard.components.AppliancesTooBar;
 import com.netless.whiteboard.components.BroadcastManager;
+import com.netless.whiteboard.dialog.InviteDialog;
 
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class RoomPageActivity extends AppCompatActivity {
 
     private boolean didLeave = false;
 
+    private String uuid;
     private WhiteSdk whiteSdk;
     private Room room;
     private AppliancesTooBar appliancesTooBar;
@@ -83,6 +85,7 @@ public class RoomPageActivity extends AppCompatActivity {
                 bundle.getString("uuid"),
                 bundle.getString("roomToken")
         );
+        this.uuid = bundle.getString("uuid");
         this.whiteSdk = new WhiteSdk(whiteBroadView, this, configuration);
         this.whiteSdk.joinRoom(roomParams, new AbstractRoomCallbacks() {
 
@@ -157,6 +160,12 @@ public class RoomPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onClickSlides();
+            }
+        });
+        this.btnInvite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickInvite();
             }
         });
     }
@@ -235,6 +244,12 @@ public class RoomPageActivity extends AppCompatActivity {
 
     private void onClickSlides() {
         panMain.openDrawer(Gravity.END);
+    }
+
+    private void onClickInvite() {
+        InviteDialog dialog = new InviteDialog();
+        dialog.setUUID(this.uuid);
+        dialog.show(getSupportFragmentManager(), "invite dialog");
     }
 
     private void onRoomPhaseChange(RoomPhase phase) {
