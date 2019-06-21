@@ -3,6 +3,7 @@ package com.netless.whiteboard.activity;
 import com.herewhite.sdk.*;
 import com.herewhite.sdk.domain.*;
 import com.netless.whiteboard.R;
+import com.netless.whiteboard.components.AppliancesTooBar;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,15 +13,17 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 public class RoomPageActivity extends AppCompatActivity {
 
     private boolean didLeave = false;
 
     private WhiteSdk whiteSdk;
     private Room room;
+    private AppliancesTooBar appliancesTooBar;
 
     private ProgressBar icoLoading;
-    private View appliancesToolbar;
     private View panTopBar;
     private View panBottomBar;
 
@@ -30,13 +33,6 @@ public class RoomPageActivity extends AppCompatActivity {
     private Button btnSlides;
     private Button btnUpload;
 
-    private Button btnSelector;
-    private Button btnPencil;
-    private Button btnText;
-    private Button btnEraser;
-    private Button btnEllipse;
-    private Button btnRectangle;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +40,6 @@ public class RoomPageActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_room_page);
 
-        this.appliancesToolbar = findViewById(R.id.appliancesToolbar);
         this.icoLoading = findViewById(R.id.icoLoading);
         this.panTopBar = findViewById(R.id.panTopBar);
         this.panBottomBar = findViewById(R.id.panBottomBar);
@@ -55,13 +50,13 @@ public class RoomPageActivity extends AppCompatActivity {
         this.btnSlides = findViewById(R.id.btnSlides);
         this.btnUpload = findViewById(R.id.btnUpload);
 
-        this.btnSelector = findViewById(R.id.btnSelector);
-        this.btnPencil = findViewById(R.id.btnPencil);
-        this.btnText = findViewById(R.id.btnText);
-        this.btnEraser = findViewById(R.id.btnEraser);
-        this.btnEllipse = findViewById(R.id.btnEllipse);
-        this.btnRectangle = findViewById(R.id.btnRectangle);
-
+        this.appliancesTooBar = new AppliancesTooBar("pencil", new HashMap<String, Button>() {{
+            this.put("selector", (Button) findViewById(R.id.btnSelector));
+            this.put("pencil", (Button) findViewById(R.id.btnPencil));
+            this.put("eraser", (Button) findViewById(R.id.btnEraser));
+            this.put("ellipse", (Button) findViewById(R.id.btnEllipse));
+            this.put("rectangle", (Button) findViewById(R.id.btnRectangle));
+        }});
         this.icoLoading.getIndeterminateDrawable().setColorFilter(
                         getResources().getColor(R.color.colorGrayBorder),
                         android.graphics.PorterDuff.Mode.SRC_IN);
@@ -84,6 +79,13 @@ public class RoomPageActivity extends AppCompatActivity {
                 onRoomPhaseChange(phase);
             }
 
+            @Override
+            public void onRoomStateChanged(RoomState modifyState) {
+                MemberState memberState = modifyState.getMemberState();
+                if (memberState != null) {
+                    appliancesTooBar.setCurrentApplianceName(memberState.getCurrentApplianceName());
+                }
+            }
         }, new Promise<Room>() {
 
             @Override
@@ -123,6 +125,7 @@ public class RoomPageActivity extends AppCompatActivity {
                 this.panBottomBar.setTranslationY(translationDistance);
                 this.icoLoading.setVisibility(View.VISIBLE);
             }
+            this.appliancesTooBar.setButtonsEnable(enable);
             this.btnInvite.setEnabled(enable);
             this.btnCamera.setEnabled(enable);
             this.btnSlides.setEnabled(enable);
