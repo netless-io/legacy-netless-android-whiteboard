@@ -84,10 +84,15 @@ public class RoomPageActivity extends AppCompatActivity {
             public void onRoomStateChanged(RoomState modifyState) {
                 MemberState memberState = modifyState.getMemberState();
                 if (memberState != null) {
-                    String applianceName = memberState.getCurrentApplianceName();
-                    int[] sdkColor = memberState.getStrokeColor();
+                    final String applianceName = memberState.getCurrentApplianceName();
+                    final int[] sdkColor = memberState.getStrokeColor();
 
-                    appliancesTooBar.setState(applianceName, sdkColor);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            appliancesTooBar.setState(applianceName, sdkColor);
+                        }
+                    });
                 }
             }
         }, new Promise<Room>() {

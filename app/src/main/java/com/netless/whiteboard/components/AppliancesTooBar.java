@@ -38,7 +38,6 @@ public class AppliancesTooBar {
 
     public void setState(String currentApplianceName, int[] sdkColor) {
         String originalApplianceName = this.currentApplianceName;
-
         this.currentApplianceName = currentApplianceName;
 
         if (originalApplianceName != null) {
