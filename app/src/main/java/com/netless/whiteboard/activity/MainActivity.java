@@ -66,10 +66,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(MainActivity.this, RoomPageActivity.class);
-                        intent.putExtra("uuid", uuid);
-                        intent.putExtra("roomToken", roomToken);
-                        MainActivity.this.startActivity(intent);
+                        joinRoom(uuid, roomToken);
                         setEnableButtons(true);
                     }
                 });
@@ -122,11 +119,55 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             if (result.getContents() == null) {
                 Toast.makeText(this, "未找到二维码", Toast.LENGTH_LONG).show();
             } else {
-                Log.i("NTAG", result.getContents());
+                this.joinRoomWithURL(result.getContents());
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void joinRoomWithURL(String url) {
+        if (url.matches("https://demo\\.herewhite\\.com/#/(\\w|-)+/whiteboard/[a-z0-9]+/?")) {
+            String[] cells = url.split("/");
+            String uuid = cells[cells.length - 1];
+
+            if (uuid.trim().equals("")) {
+                uuid = cells[cells.length - 2];
+            }
+            this.setEnableButtons(false);
+            RemoteAPI.instance.getRoom(uuid, new RemoteAPI.Callback() {
+                @Override
+                public void success(final String uuid, final String roomToken) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            joinRoom(uuid, roomToken);
+                            setEnableButtons(true);
+                        }
+                    });
+                }
+
+                @Override
+                public void fail(final String errorMessage) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            MainActivity.this.alert("创建房间失败", errorMessage);
+                            MainActivity.this.setEnableButtons(true);
+                        }
+                    });
+                }
+            });
+        } else {
+            this.alert("错误", "无法识别的二维码");
+        }
+    }
+
+    private void joinRoom(String uuid, String roomToken) {
+        Intent intent = new Intent(MainActivity.this, RoomPageActivity.class);
+        intent.putExtra("uuid", uuid);
+        intent.putExtra("roomToken", roomToken);
+        MainActivity.this.startActivity(intent);
     }
 
     private void alert(String title, String message) {
