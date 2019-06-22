@@ -1,147 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.RoomPageActivity">
 
-    <com.herewhite.sdk.WhiteBroadView
-        android:id="@+id/whiteboard"
-        android:layout_width="match_parent"
+    <include layout="@layout/room_page_body"/>
+    ​
+    <RelativeLayout
+        android:id="@+id/panSlides"
+        android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:visibility="visible"/>
+        android:layout_gravity="right">
 
-    <ProgressBar
-        android:id="@+id/icoLoading"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"/>
-
-    <RelativeLayout
-        android:id="@+id/panTopBar"
-        android:layout_width="match_parent"
-        android:layout_marginTop="13dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_height="32dp">
-
-        <Button
-            style="@style/PrimaryRoundButton"
-            android:id="@+id/btnInvite"
-            android:layout_alignParentEnd="true"
-            android:paddingStart="8dp"
-            android:paddingEnd="0dp"
-            android:drawableStart="@drawable/ic_tool_add"/>
-
-        <Button
-            style="@style/PrimaryRoundButton"
-            android:id="@+id/btnCamera"
-            android:layout_alignParentEnd="true"
-            android:layout_alignEnd="@id/btnCamera"
-            android:layout_marginEnd="42dp"
-            android:paddingStart="8.5dp"
-            android:paddingEnd="0dp"
-            android:drawableStart="@drawable/ic_tool_board"/>
+        <include layout="@layout/room_page_slides"/>
 
     </RelativeLayout>
-
-    <Button
-        style="@style/RoundButton"
-        android:id="@+id/btnGoBack"
-        android:paddingStart="10dp"
-        android:paddingEnd="0dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginStart="8dp"
-        android:drawableStart="@drawable/ic_tool_back"/>
-
-    <RelativeLayout
-        android:id="@+id/panBottomBar"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="23dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_height="32dp">
-
-        <Button
-            style="@style/PrimaryRoundButton"
-            android:id="@+id/btnSlides"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:paddingStart="8dp"
-            android:paddingEnd="0dp"
-            android:drawableStart="@drawable/ic_tool_annex"/>
-
-        <LinearLayout
-            android:background="@drawable/toolbox_background"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:layout_width="264dp"
-            android:layout_height="32dp">
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnSelector"
-                android:drawableStart="@drawable/ic_appliance_selector"
-                android:paddingStart="11dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnPencil"
-                android:drawableStart="@drawable/ic_appliance_pencil"
-                android:paddingStart="11dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnText"
-                android:drawableStart="@drawable/ic_appliance_text"
-                android:paddingStart="11dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnUpload"
-                android:drawableStart="@drawable/ic_appliance_upload"
-                android:paddingStart="13dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnEraser"
-                android:drawableStart="@drawable/ic_appliance_eraser"
-                android:paddingStart="13dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnEllipse"
-                android:drawableStart="@drawable/ic_appliance_ellipse"
-                android:paddingStart="13dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-            <Button
-                style="@style/ToolButton"
-                android:id="@+id/btnRectangle"
-                android:drawableStart="@drawable/ic_appliance_rectangle"
-                android:paddingStart="13dp"
-                android:paddingEnd="0dp"
-                android:layout_height="match_parent"/>
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</android.support.v4.widget.DrawerLayout>
