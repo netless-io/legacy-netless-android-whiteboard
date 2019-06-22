@@ -1,17 +1,28 @@
 package com.netless.whiteboard.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+
+import com.google.zxing.integration.android.IntentResult;
 import com.netless.whiteboard.R;
 import com.netless.whiteboard.components.RemoteAPI;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+
+    private IntentIntegrator qrScan;
 
     private Button btnCreateBoard;
     private Button btnJoinBoard;
@@ -22,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
+
+        qrScan = new IntentIntegrator(this)
+                .setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
+                .setPrompt("请对准二维码")
+                .autoWide()
+                .setCameraId(0);
 
         this.btnCreateBoard = findViewById(R.id.btnCreateBoard);
         this.btnJoinBoard = findViewById(R.id.btnJoinBoard);
@@ -72,6 +89,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onClickJoinBoard() {
+        switch (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)) {
+            case PackageManager.PERMISSION_GRANTED: {
+                qrScan.initiateScan();
+                break;
+            }
+            case PackageManager.PERMISSION_DENIED: {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                    this.alert("无法获取摄像头权限", "扫描二维码需要摄像头权限，你已经永久禁止授予该 App 权限。");
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 0);
+                }
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            qrScan.initiateScan();
+
+        } else {
+            this.alert("无法获取摄像头权限", "没有摄像头权限，App 将无法扫描二维码");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "未找到二维码", Toast.LENGTH_LONG).show();
+            } else {
+                Log.i("NTAG", result.getContents());
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void alert(String title, String message) {
