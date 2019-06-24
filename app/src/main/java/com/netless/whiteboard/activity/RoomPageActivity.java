@@ -247,27 +247,28 @@ public class RoomPageActivity extends AppCompatActivity {
     }
 
     private void onClickGoBack() {
-        this.finishRoomPage();
+        this.finishRoomPage(null);
     }
 
     private void onClickReplay() {
         Intent resultIntent = new Intent();
 
-        resultIntent.putExtra("replay", true);
         resultIntent.putExtra("uuid", this.uuid);
         resultIntent.putExtra("roomToken", this.roomToken);
 
-        setResult(Activity.RESULT_OK, resultIntent);
-
-        this.finishRoomPage();
+        this.finishRoomPage(resultIntent);
     }
 
-    private void finishRoomPage() {
+    private void finishRoomPage(Intent resultIntent) {
         if (this.room != null) {
             room.disconnect();
         }
         this.didLeave = true;
         this.broadcastManager.dispose();
+
+        if (resultIntent != null) {
+            this.setResult(Activity.RESULT_OK, resultIntent);
+        }
         this.finish();
     }
 

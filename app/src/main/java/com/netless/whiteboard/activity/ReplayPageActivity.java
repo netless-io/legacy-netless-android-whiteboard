@@ -36,6 +36,10 @@ public class ReplayPageActivity extends AppCompatActivity {
         this.icoLoading = findViewById(R.id.icoLoading);
         this.btnGoBack = findViewById(R.id.btnGoBack);
 
+        this.icoLoading.getIndeterminateDrawable().setColorFilter(
+                getResources().getColor(R.color.colorGrayBorder),
+                android.graphics.PorterDuff.Mode.SRC_IN
+        );
         WhiteBroadView whiteBroadView = findViewById(R.id.whiteboard);
         WhiteSdkConfiguration configuration = new WhiteSdkConfiguration(DeviceType.touch, 10, 0.1);
         WhiteSdk whiteSdk = new WhiteSdk(whiteBroadView, this, configuration);
@@ -49,26 +53,46 @@ public class ReplayPageActivity extends AppCompatActivity {
 
             @Override
             public void onLoadFirstFrame() {
-                ReplayPageActivity.this.onLoadFirstFrame();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ReplayPageActivity.this.onLoadFirstFrame();
+                    }
+                });
             }
 
         }, new Promise<Player>() {
 
             @Override
-            public void then(Player player) {
-                ReplayPageActivity.this.player = player;
-                setupPlayer(player);
+            public void then(final Player player) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ReplayPageActivity.this.player = player;
+                        setupPlayer(player);
+                    }
+                });
             }
 
             @Override
-            public void catchEx(SDKError sdkError) {
-                showToast(sdkError.getMessage());
+            public void catchEx(final SDKError sdkError) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast(sdkError.getMessage());
+                    }
+                });
             }
         });
         this.btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClickGoBack();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        onClickGoBack();
+                    }
+                });
             }
         });
     }
