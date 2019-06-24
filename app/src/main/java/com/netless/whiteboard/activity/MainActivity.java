@@ -9,18 +9,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
-
 import com.google.zxing.integration.android.IntentResult;
 import com.netless.whiteboard.R;
 import com.netless.whiteboard.components.RemoteAPI;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+
+    static final int ROOM_PAGE_REQUEST = 0;
 
     private IntentIntegrator qrScan;
 
@@ -114,15 +114,29 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() == null) {
-                Toast.makeText(this, "未找到二维码", Toast.LENGTH_LONG).show();
-            } else {
-                this.joinRoomWithURL(result.getContents());
-            }
+
+        if (requestCode == ROOM_PAGE_REQUEST) {
+            String uuid = data.getStringExtra("uuid");
+            String roomToken = data.getStringExtra("roomToken");
+
+            Intent intent = new Intent(MainActivity.this, ReplayPageActivity.class);
+            intent.putExtra("uuid", uuid);
+            intent.putExtra("roomToken", roomToken);
+
+            startActivity(intent);
+
         } else {
-            super.onActivityResult(requestCode, resultCode, data);
+            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+            if (result != null) {
+                if (result.getContents() == null) {
+                    Toast.makeText(this, "未找到二维码", Toast.LENGTH_LONG).show();
+                } else {
+                    this.joinRoomWithURL(result.getContents());
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
@@ -167,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Intent intent = new Intent(MainActivity.this, RoomPageActivity.class);
         intent.putExtra("uuid", uuid);
         intent.putExtra("roomToken", roomToken);
-        MainActivity.this.startActivity(intent);
+        MainActivity.this.startActivityForResult(intent, ROOM_PAGE_REQUEST);
     }
 
     private void alert(String title, String message) {

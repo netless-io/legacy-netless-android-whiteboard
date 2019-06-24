@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.herewhite.sdk.WhiteBroadView
+        android:id="@+id/whiteboard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"/>
+
+    <ProgressBar
+        android:id="@+id/icoLoading"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"/>
+
+    <Button
+        style="@style/RoundButton"
+        android:id="@+id/btnGoBack"
+        android:paddingStart="10dp"
+        android:paddingEnd="0dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="8dp"
+        android:drawableStart="@drawable/ic_tool_back"/>
+
+</RelativeLayout>

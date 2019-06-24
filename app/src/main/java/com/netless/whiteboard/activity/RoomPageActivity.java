@@ -7,6 +7,8 @@ import com.netless.whiteboard.components.AppliancesTooBar;
 import com.netless.whiteboard.components.BroadcastManager;
 import com.netless.whiteboard.dialog.InviteDialog;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,8 +25,9 @@ import java.util.HashMap;
 public class RoomPageActivity extends AppCompatActivity {
 
     private boolean didLeave = false;
-
     private String uuid;
+    private String roomToken;
+
     private WhiteSdk whiteSdk;
     private Room room;
     private AppliancesTooBar appliancesTooBar;
@@ -39,6 +42,7 @@ public class RoomPageActivity extends AppCompatActivity {
     private Button btnGoBack;
     private Button btnInvite;
     private Button btnCamera;
+    private Button btnReplay;
     private Button btnSlides;
     private Button btnUpload;
 
@@ -58,6 +62,7 @@ public class RoomPageActivity extends AppCompatActivity {
         this.btnGoBack = findViewById(R.id.btnGoBack);
         this.btnInvite = findViewById(R.id.btnInvite);
         this.btnCamera = findViewById(R.id.btnCamera);
+        this.btnReplay = findViewById(R.id.btnReplay);
         this.btnSlides = findViewById(R.id.btnSlides);
         this.btnUpload = findViewById(R.id.btnUpload);
 
@@ -81,11 +86,12 @@ public class RoomPageActivity extends AppCompatActivity {
         WhiteSdkConfiguration configuration = new WhiteSdkConfiguration(DeviceType.touch, 10, 0.1);
 
         Bundle bundle = this.getIntent().getExtras();
-        RoomParams roomParams = new RoomParams(
-                bundle.getString("uuid"),
-                bundle.getString("roomToken")
-        );
+
         this.uuid = bundle.getString("uuid");
+        this.roomToken = bundle.getString("roomToken");
+
+        RoomParams roomParams = new RoomParams(this.uuid, this.roomToken);
+
         this.whiteSdk = new WhiteSdk(whiteBroadView, this, configuration);
         this.whiteSdk.joinRoom(roomParams, new AbstractRoomCallbacks() {
 
@@ -154,6 +160,12 @@ public class RoomPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onClickGoBack();
+            }
+        });
+        this.btnReplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickReplay();
             }
         });
         this.btnSlides.setOnClickListener(new View.OnClickListener() {
@@ -228,17 +240,35 @@ public class RoomPageActivity extends AppCompatActivity {
             this.appliancesTooBar.setButtonsEnable(enable);
             this.btnInvite.setEnabled(enable);
             this.btnCamera.setEnabled(enable);
+            this.btnReplay.setEnabled(enable);
             this.btnSlides.setEnabled(enable);
             this.btnUpload.setEnabled(enable);
         }
     }
 
     private void onClickGoBack() {
+        this.finishRoomPage(null);
+    }
+
+    private void onClickReplay() {
+        Intent resultIntent = new Intent();
+
+        resultIntent.putExtra("uuid", this.uuid);
+        resultIntent.putExtra("roomToken", this.roomToken);
+
+        this.finishRoomPage(resultIntent);
+    }
+
+    private void finishRoomPage(Intent resultIntent) {
         if (this.room != null) {
             room.disconnect();
         }
         this.didLeave = true;
         this.broadcastManager.dispose();
+
+        if (resultIntent != null) {
+            this.setResult(Activity.RESULT_OK, resultIntent);
+        }
         this.finish();
     }
 
