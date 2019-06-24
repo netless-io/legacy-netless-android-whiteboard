@@ -37,7 +37,15 @@
         <Button
             style="@style/PrimaryRoundButton"
             android:id="@+id/btnCamera"
-            android:layout_alignParentEnd="true"
+            android:layout_alignEnd="@id/btnInvite"
+            android:layout_marginEnd="42dp"
+            android:paddingStart="8.5dp"
+            android:paddingEnd="0dp"
+            android:drawableStart="@drawable/ic_tool_board"/>
+
+        <Button
+            style="@style/PrimaryRoundButton"
+            android:id="@+id/btnReplay"
             android:layout_alignEnd="@id/btnCamera"
             android:layout_marginEnd="42dp"
             android:paddingStart="8.5dp"

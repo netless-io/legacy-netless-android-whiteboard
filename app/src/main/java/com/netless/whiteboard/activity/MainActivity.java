@@ -120,6 +120,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             } else {
                 this.joinRoomWithURL(result.getContents());
             }
+        } else if (data.getBooleanExtra("replay", false)) {
+            String uuid = data.getStringExtra("uuid");
+            String roomToken = data.getStringExtra("roomToken");
+
+            Intent intent = new Intent(MainActivity.this, ReplayPageActivity.class);
+            intent.putExtra("uuid", uuid);
+            intent.putExtra("roomToken", roomToken);
+
+            startActivity(intent);
+
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
