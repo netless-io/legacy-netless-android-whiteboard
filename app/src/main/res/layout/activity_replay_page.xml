@@ -25,4 +25,30 @@
         android:layout_marginStart="8dp"
         android:drawableStart="@drawable/ic_tool_back"/>
 
+    <LinearLayout
+        android:id="@+id/panBottomBar"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="23dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_height="32dp">
+
+        <Button
+            style="@style/RoundButton"
+            android:id="@+id/btnOperation"
+            android:paddingStart="10dp"
+            android:paddingEnd="0dp"
+            android:drawableStart="@drawable/ic_tool_back"/>
+
+        <SeekBar android:id="@+id/seekBar"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:indeterminate="false"
+            android:max="1000"
+            android:progress="0" />
+
+    </LinearLayout>
+
 </RelativeLayout>
