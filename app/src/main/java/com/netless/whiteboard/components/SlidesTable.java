@@ -52,12 +52,26 @@ public class SlidesTable extends ArrayAdapter<Scene> {
     }
 
     public void setSceneState(SceneState sceneState) {
+        boolean willChangeIndex = false;
+
+        if (sceneState.getIndex() != sceneIndex) {
+            willChangeIndex = true;
+        }
         this.scenePath = sceneState.getScenePath();
         this.sceneIndex = sceneState.getIndex();
         this.scenes = sceneState.getScenes();
 
         this.clear();
         this.addAll(this.scenes);
+
+        if (willChangeIndex) {
+            int firstIndex = this.listView.getFirstVisiblePosition();
+            int lastIndex = this.listView.getLastVisiblePosition();
+
+            if (this.sceneIndex < firstIndex || this.sceneIndex > lastIndex) {
+                this.listView.setSelection(this.sceneIndex);
+            }
+        }
     }
 
     @Override
@@ -68,6 +82,12 @@ public class SlidesTable extends ArrayAdapter<Scene> {
         Scene scene = this.getItem(i);
         TextView textView = view.findViewById(R.id.txtIndex);
         textView.setText("" + i);
+
+        if (this.sceneIndex == i) {
+            view.setBackgroundColor(this.activity.getResources().getColor(R.color.colorGrayBorder));
+        } else {
+            view.setBackgroundColor(this.activity.getResources().getColor(R.color.colorGray));
+        }
         return view;
     }
 
