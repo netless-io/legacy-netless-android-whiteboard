@@ -51,9 +51,9 @@ public class BroadcastManager {
     private void onClickCamera() {
         if (this.room != null) {
             if (this.hasBroadcaster) {
-                // TODO
-
-            } else if (this.viewMode == ViewMode.Broadcaster) {
+                // TODO 选择脱离 follower 或成为主播
+            }
+            if (this.viewMode == ViewMode.Broadcaster) {
                 this.room.setViewMode(ViewMode.Freedom);
                 this.showToast("退出演讲模式，他人不再跟随你的视角");
 
