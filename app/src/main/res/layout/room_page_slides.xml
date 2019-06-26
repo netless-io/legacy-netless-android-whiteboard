@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/colorGray"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ListView
         android:id="@+id/listView"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:background="@color/colorWhite"/>
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_weight="0"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:text="@string/add_page"/>
+
+</LinearLayout>

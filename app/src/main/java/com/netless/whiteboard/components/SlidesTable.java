@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,11 +25,13 @@ public class SlidesTable extends ArrayAdapter<Scene> {
     private Scene[] scenes = new Scene[] {};
     private Room room;
     private String scenePath = "";
+    private Button btnAdd;
     private int sceneIndex = 0;
 
     public SlidesTable(AppCompatActivity activity) {
         super(activity, R.layout.room_page_slide);
         this.activity = activity;
+        this.btnAdd = activity.findViewById(R.id.btnAdd);
         this.listView = activity.findViewById(R.id.listView);
         this.listView.setAdapter(this);
         this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -43,6 +46,12 @@ public class SlidesTable extends ArrayAdapter<Scene> {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 onRemoveScene(i);
                 return true;
+            }
+        });
+        this.btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAdd();
             }
         });
     }
@@ -91,6 +100,13 @@ public class SlidesTable extends ArrayAdapter<Scene> {
         return view;
     }
 
+    private void onClickAdd() {
+        int insertedIndex = this.sceneIndex + 1;
+        String directory = this.getSceneDirectory(insertedIndex);
+        Scene scene = new Scene();
+        this.room.putScenes(directory, new Scene[] {scene}, insertedIndex);
+    }
+
     private void onChangeToScene(int index) {
         if (this.sceneIndex != index) {
             this.room.setScenePath(this.getScenePathWithIndex(index));
@@ -114,9 +130,11 @@ public class SlidesTable extends ArrayAdapter<Scene> {
     }
 
     private String getScenePathWithIndex(int index) {
+        return this.getSceneDirectory(index) + "/" + this.scenes[index].getName();
+    }
+
+    private String getSceneDirectory(int index) {
         int lastSemicolonIndex = this.scenePath.lastIndexOf('/');
-        String sceneDirectory = this.scenePath.substring(0,lastSemicolonIndex);
-        String sceneName = this.scenes[index].getName();
-        return sceneDirectory + "/" + sceneName;
+        return this.scenePath.substring(0,lastSemicolonIndex);
     }
 }
