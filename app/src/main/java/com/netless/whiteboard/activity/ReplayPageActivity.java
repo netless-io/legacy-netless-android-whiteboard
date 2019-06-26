@@ -189,8 +189,18 @@ public class ReplayPageActivity extends AppCompatActivity {
     private void onPlayerPhaseChanged(PlayerPhase phase) {
         if (phase == PlayerPhase.buffering || phase == PlayerPhase.waitingFirstFrame) {
             this.btnOperation.setEnabled(false);
+            this.btnOperation.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_player_play, 0, 0, 0);
+            this.icoLoading.setVisibility(View.VISIBLE);
+
         } else {
             this.btnOperation.setEnabled(true);
+            this.icoLoading.setVisibility(View.INVISIBLE);
+
+            if (phase == PlayerPhase.playing) {
+                this.btnOperation.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_player_pause, 0, 0, 0);
+            } else {
+                this.btnOperation.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_player_play, 0, 0, 0);
+            }
         }
     }
 

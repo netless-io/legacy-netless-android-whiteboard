@@ -37,9 +37,9 @@
         <Button
             style="@style/RoundButton"
             android:id="@+id/btnOperation"
-            android:paddingStart="10dp"
+            android:paddingStart="11dp"
             android:paddingEnd="0dp"
-            android:drawableStart="@drawable/ic_tool_back"/>
+            android:drawableStart="@drawable/ic_player_play"/>
 
         <SeekBar android:id="@+id/seekBar"
             android:layout_weight="1"
