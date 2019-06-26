@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            MainActivity.this.alert("创建房间失败", errorMessage);
+                            MainActivity.this.alert("加入房间失败", errorMessage);
                             MainActivity.this.setEnableButtons(true);
                         }
                     });
