@@ -113,6 +113,7 @@ public class RoomPageActivity extends AppCompatActivity {
             public void onRoomStateChanged(RoomState modifyState) {
                 MemberState memberState = modifyState.getMemberState();
                 BroadcastState broadcastState = modifyState.getBroadcastState();
+                SceneState sceneState = modifyState.getSceneState();
 
                 if (memberState != null) {
                     final String applianceName = memberState.getCurrentApplianceName();
@@ -135,6 +136,9 @@ public class RoomPageActivity extends AppCompatActivity {
                             broadcastManager.setState(viewMode, hasBroadcaster);
                         }
                     });
+                }
+                if (sceneState != null) {
+                    slidesTable.setScene(sceneState.getScenes());
                 }
             }
         }, new Promise<Room>() {
@@ -216,6 +220,18 @@ public class RoomPageActivity extends AppCompatActivity {
                     final ViewMode viewMode = broadcastState.getMode();
                     final boolean hasBroadcaster = broadcastState.getBroadcasterInformation() != null;
                     broadcastManager.setState(viewMode, hasBroadcaster);
+                }
+
+                @Override
+                public void catchEx(SDKError sdkError) {
+                    showToast(sdkError.getMessage());
+                }
+            });
+            room.getSceneState(new Promise<SceneState>() {
+
+                @Override
+                public void then(SceneState sceneState) {
+                    slidesTable.setScene(sceneState.getScenes());
                 }
 
                 @Override

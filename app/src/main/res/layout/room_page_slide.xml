@@ -8,8 +8,9 @@
         android:src="@mipmap/ic_launcher"
         android:layout_width="50dp"
         android:layout_height="50dp" />
+
     <TextView
-        android:id="@+id/tv"
+        android:id="@+id/text"
         android:text="hello"
         android:gravity="center"
         android:layout_marginLeft="50dp"
