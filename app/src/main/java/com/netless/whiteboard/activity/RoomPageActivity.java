@@ -5,6 +5,7 @@ import com.herewhite.sdk.domain.*;
 import com.netless.whiteboard.R;
 import com.netless.whiteboard.components.AppliancesTooBar;
 import com.netless.whiteboard.components.BroadcastManager;
+import com.netless.whiteboard.components.SlidesTable;
 import com.netless.whiteboard.dialog.InviteDialog;
 
 import android.app.Activity;
@@ -30,6 +31,8 @@ public class RoomPageActivity extends AppCompatActivity {
 
     private WhiteSdk whiteSdk;
     private Room room;
+    private SlidesTable slidesTable;
+
     private AppliancesTooBar appliancesTooBar;
     private BroadcastManager broadcastManager;
 
@@ -92,6 +95,7 @@ public class RoomPageActivity extends AppCompatActivity {
 
         RoomParams roomParams = new RoomParams(this.uuid, this.roomToken);
 
+        this.slidesTable = new SlidesTable(this);
         this.whiteSdk = new WhiteSdk(whiteBroadView, this, configuration);
         this.whiteSdk.joinRoom(roomParams, new AbstractRoomCallbacks() {
 
