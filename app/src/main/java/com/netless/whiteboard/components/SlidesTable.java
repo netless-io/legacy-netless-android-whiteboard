@@ -1,46 +1,63 @@
 package com.netless.whiteboard.components;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.herewhite.sdk.Room;
 import com.herewhite.sdk.domain.Scene;
+import com.herewhite.sdk.domain.SceneState;
 import com.netless.whiteboard.R;
 
-public class SlidesTable extends BaseAdapter {
+public class SlidesTable extends ArrayAdapter<Scene> {
 
     private final AppCompatActivity activity;
     private final ListView listView;
+
     private Scene[] scenes = new Scene[] {};
+    private Room room;
+    private String scenePath = "";
+    private int sceneIndex = 0;
 
     public SlidesTable(AppCompatActivity activity) {
+        super(activity, R.layout.room_page_slide);
         this.activity = activity;
         this.listView = activity.findViewById(R.id.listView);
         this.listView.setAdapter(this);
+        this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                onChangeToScene(i);
+            }
+        });
+        this.listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                onRemoveScene(i);
+                return true;
+            }
+        });
     }
 
-    public void setScene(Scene[] scenes) {
-        this.scenes = scenes;
-        this.notifyDataSetChanged();
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
-    @Override
-    public int getCount() {
-        return this.scenes.length;
-    }
+    public void setSceneState(SceneState sceneState) {
+        this.scenePath = sceneState.getScenePath();
+        this.sceneIndex = sceneState.getIndex();
+        this.scenes = sceneState.getScenes();
 
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return this.scenes[i];
+        this.clear();
+        this.addAll(this.scenes);
     }
 
     @Override
@@ -48,11 +65,38 @@ public class SlidesTable extends BaseAdapter {
         if (view == null) {
             view = LayoutInflater.from(this.activity).inflate(R.layout.room_page_slide, viewGroup, false);
         }
-        TextView textView = view.findViewById(R.id.text);
-        Scene scene = this.scenes[i];
-
-        textView.setText(scene.getName());
-
+        Scene scene = this.getItem(i);
+        TextView textView = view.findViewById(R.id.txtIndex);
+        textView.setText("" + i);
         return view;
+    }
+
+    private void onChangeToScene(int index) {
+        if (this.sceneIndex != index) {
+            this.room.setScenePath(this.getScenePathWithIndex(index));
+        }
+    }
+
+    private void onRemoveScene(final int index) {
+        new AlertDialog.Builder(this.activity)
+                .setTitle("确认删除")
+                .setMessage("确定删除这一页吗？")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        removeScene(index);
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    private void removeScene(int index) {
+        this.room.removeScenes(this.getScenePathWithIndex(index));
+    }
+
+    private String getScenePathWithIndex(int index) {
+        int lastSemicolonIndex = this.scenePath.lastIndexOf('/');
+        String sceneDirectory = this.scenePath.substring(0,lastSemicolonIndex);
+        String sceneName = this.scenes[index].getName();
+        return sceneDirectory + "/" + sceneName;
     }
 }

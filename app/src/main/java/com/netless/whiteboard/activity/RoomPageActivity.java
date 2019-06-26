@@ -10,6 +10,7 @@ import com.netless.whiteboard.dialog.InviteDialog;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -113,7 +114,7 @@ public class RoomPageActivity extends AppCompatActivity {
             public void onRoomStateChanged(RoomState modifyState) {
                 MemberState memberState = modifyState.getMemberState();
                 BroadcastState broadcastState = modifyState.getBroadcastState();
-                SceneState sceneState = modifyState.getSceneState();
+                final SceneState sceneState = modifyState.getSceneState();
 
                 if (memberState != null) {
                     final String applianceName = memberState.getCurrentApplianceName();
@@ -138,7 +139,12 @@ public class RoomPageActivity extends AppCompatActivity {
                     });
                 }
                 if (sceneState != null) {
-                    slidesTable.setScene(sceneState.getScenes());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            slidesTable.setSceneState(sceneState);
+                        }
+                    });
                 }
             }
         }, new Promise<Room>() {
@@ -194,6 +200,7 @@ public class RoomPageActivity extends AppCompatActivity {
         this.room = room;
         this.appliancesTooBar.setRoom(room);
         this.broadcastManager.setRoom(room);
+        this.slidesTable.setRoom(room);
 
         if (this.didLeave) {
             room.disconnect();
@@ -231,7 +238,7 @@ public class RoomPageActivity extends AppCompatActivity {
 
                 @Override
                 public void then(SceneState sceneState) {
-                    slidesTable.setScene(sceneState.getScenes());
+                    slidesTable.setSceneState(sceneState);
                 }
 
                 @Override
