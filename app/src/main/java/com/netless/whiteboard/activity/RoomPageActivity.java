@@ -5,10 +5,12 @@ import com.herewhite.sdk.domain.*;
 import com.netless.whiteboard.R;
 import com.netless.whiteboard.components.AppliancesTooBar;
 import com.netless.whiteboard.components.BroadcastManager;
+import com.netless.whiteboard.components.SlidesTable;
 import com.netless.whiteboard.dialog.InviteDialog;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +32,8 @@ public class RoomPageActivity extends AppCompatActivity {
 
     private WhiteSdk whiteSdk;
     private Room room;
+    private SlidesTable slidesTable;
+
     private AppliancesTooBar appliancesTooBar;
     private BroadcastManager broadcastManager;
 
@@ -92,6 +96,7 @@ public class RoomPageActivity extends AppCompatActivity {
 
         RoomParams roomParams = new RoomParams(this.uuid, this.roomToken);
 
+        this.slidesTable = new SlidesTable(this);
         this.whiteSdk = new WhiteSdk(whiteBroadView, this, configuration);
         this.whiteSdk.joinRoom(roomParams, new AbstractRoomCallbacks() {
 
@@ -109,6 +114,7 @@ public class RoomPageActivity extends AppCompatActivity {
             public void onRoomStateChanged(RoomState modifyState) {
                 MemberState memberState = modifyState.getMemberState();
                 BroadcastState broadcastState = modifyState.getBroadcastState();
+                final SceneState sceneState = modifyState.getSceneState();
 
                 if (memberState != null) {
                     final String applianceName = memberState.getCurrentApplianceName();
@@ -129,6 +135,14 @@ public class RoomPageActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             broadcastManager.setState(viewMode, hasBroadcaster);
+                        }
+                    });
+                }
+                if (sceneState != null) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            slidesTable.setSceneState(sceneState);
                         }
                     });
                 }
@@ -186,6 +200,7 @@ public class RoomPageActivity extends AppCompatActivity {
         this.room = room;
         this.appliancesTooBar.setRoom(room);
         this.broadcastManager.setRoom(room);
+        this.slidesTable.setRoom(room);
 
         if (this.didLeave) {
             room.disconnect();
@@ -212,6 +227,18 @@ public class RoomPageActivity extends AppCompatActivity {
                     final ViewMode viewMode = broadcastState.getMode();
                     final boolean hasBroadcaster = broadcastState.getBroadcasterInformation() != null;
                     broadcastManager.setState(viewMode, hasBroadcaster);
+                }
+
+                @Override
+                public void catchEx(SDKError sdkError) {
+                    showToast(sdkError.getMessage());
+                }
+            });
+            room.getSceneState(new Promise<SceneState>() {
+
+                @Override
+                public void then(SceneState sceneState) {
+                    slidesTable.setSceneState(sceneState);
                 }
 
                 @Override

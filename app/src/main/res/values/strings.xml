@@ -5,4 +5,5 @@
     <string name="copy">复制</string>
     <string name="qr_code">二维码</string>
     <string name="ok">确定</string>
+    <string name="add_page">添加页</string>
 </resources>

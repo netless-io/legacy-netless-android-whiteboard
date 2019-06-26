@@ -116,15 +116,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == ROOM_PAGE_REQUEST) {
-            String uuid = data.getStringExtra("uuid");
-            String roomToken = data.getStringExtra("roomToken");
+            if (data != null) {
+                String uuid = data.getStringExtra("uuid");
+                String roomToken = data.getStringExtra("roomToken");
 
-            Intent intent = new Intent(MainActivity.this, ReplayPageActivity.class);
-            intent.putExtra("uuid", uuid);
-            intent.putExtra("roomToken", roomToken);
+                Intent intent = new Intent(MainActivity.this, ReplayPageActivity.class);
+                intent.putExtra("uuid", uuid);
+                intent.putExtra("roomToken", roomToken);
 
-            startActivity(intent);
-
+                startActivity(intent);
+            }
         } else {
             IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            MainActivity.this.alert("创建房间失败", errorMessage);
+                            MainActivity.this.alert("加入房间失败", errorMessage);
                             MainActivity.this.setEnableButtons(true);
                         }
                     });
