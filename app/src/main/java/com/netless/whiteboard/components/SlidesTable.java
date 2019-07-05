@@ -1,18 +1,23 @@
 package com.netless.whiteboard.components;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.herewhite.sdk.Room;
+import com.herewhite.sdk.domain.Promise;
+import com.herewhite.sdk.domain.SDKError;
 import com.herewhite.sdk.domain.Scene;
 import com.herewhite.sdk.domain.SceneState;
 import com.netless.whiteboard.R;
@@ -88,10 +93,29 @@ public class SlidesTable extends ArrayAdapter<Scene> {
         if (view == null) {
             view = LayoutInflater.from(this.activity).inflate(R.layout.room_page_slide, viewGroup, false);
         }
-        Scene scene = this.getItem(i);
         TextView textView = view.findViewById(R.id.txtIndex);
         textView.setText("" + i);
 
+        final ImageView imageView = view.findViewById(R.id.imgScene);
+        String scenePath = this.getScenePathWithIndex(i);
+
+        this.room.getScenePreviewImage(scenePath, new Promise<Bitmap>() {
+
+            @Override
+            public void then(final Bitmap bitmap) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        imageView.setImageBitmap(bitmap);
+                    }
+                });
+            }
+
+            @Override
+            public void catchEx(SDKError sdkError) {
+
+            }
+        });
         if (this.sceneIndex == i) {
             view.setBackgroundColor(this.activity.getResources().getColor(R.color.colorGrayBorder));
         } else {

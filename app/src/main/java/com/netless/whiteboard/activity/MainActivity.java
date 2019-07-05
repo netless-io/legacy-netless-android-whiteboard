@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void joinRoomWithURL(String url) {
-        if (url.matches("https://demo\\.herewhite\\.com/#/(\\w|-)+/whiteboard/[a-z0-9]+/?")) {
+        if (url.matches("https://demo(-agora-partner)?\\.herewhite\\.com/#/(\\w|-)+/whiteboard/[a-z0-9]+/?")) {
             String[] cells = url.split("/");
             String uuid = cells[cells.length - 1];
 
