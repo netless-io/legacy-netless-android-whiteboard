@@ -153,7 +153,7 @@ public class SlidesTable extends ArrayAdapter<Scene> {
 
     private void onClickAdd() {
         int insertedIndex = this.sceneIndex + 1;
-        String directory = this.getSceneDirectory(insertedIndex);
+        String directory = this.getSceneDirectory();
         Scene scene = new Scene();
         this.room.putScenes(directory, new Scene[] {scene}, insertedIndex);
     }
@@ -176,16 +176,32 @@ public class SlidesTable extends ArrayAdapter<Scene> {
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
+    public void goToPreviousPage() {
+        int index = this.sceneIndex;
+        if (index > 0) {
+            index --;
+        }
+        this.room.setScenePath(this.getScenePathWithIndex(index));
+    }
+
+    public void goToNextPage() {
+        int index = this.sceneIndex;
+        if (index < this.scenes.length - 1) {
+            index ++;
+        }
+        this.room.setScenePath(this.getScenePathWithIndex(index));
+    }
+
     private void removeScene(int index) {
         this.room.removeScenes(this.getScenePathWithIndex(index));
     }
 
     private String getScenePathWithIndex(int index) {
-        return this.getSceneDirectory(index) + "/" + this.scenes[index].getName();
+        return this.getSceneDirectory() + "/" + this.scenes[index].getName();
     }
 
-    private String getSceneDirectory(int index) {
+    private String getSceneDirectory() {
         int lastSemicolonIndex = this.scenePath.lastIndexOf('/');
-        return this.scenePath.substring(0,lastSemicolonIndex);
+        return this.scenePath.substring(0, lastSemicolonIndex);
     }
 }
