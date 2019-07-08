@@ -81,6 +81,15 @@
             android:paddingEnd="0dp"
             android:drawableStart="@drawable/ic_tool_annex"/>
 
+        <Button
+            style="@style/PrimaryRoundButton"
+            android:id="@+id/btnUpload"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:paddingStart="8.5dp"
+            android:paddingEnd="0dp"
+            android:drawableStart="@drawable/ic_tool_upload"/>
+
         <include layout="@layout/appliance_toolbar"/>
 
     </RelativeLayout>

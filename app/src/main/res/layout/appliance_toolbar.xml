@@ -6,7 +6,7 @@
     android:layout_alignParentBottom="true"
     android:paddingStart="5dp"
     android:paddingEnd="5dp"
-    android:layout_width="264dp"
+    android:layout_width="230dp"
     android:layout_height="32dp">
 
     <Button
@@ -30,14 +30,6 @@
         android:id="@+id/btnText"
         android:drawableStart="@drawable/ic_appliance_text"
         android:paddingStart="11dp"
-        android:paddingEnd="0dp"
-        android:layout_height="match_parent"/>
-
-    <Button
-        style="@style/ToolButton"
-        android:id="@+id/btnUpload"
-        android:drawableStart="@drawable/ic_appliance_upload"
-        android:paddingStart="13dp"
         android:paddingEnd="0dp"
         android:layout_height="match_parent"/>
 
