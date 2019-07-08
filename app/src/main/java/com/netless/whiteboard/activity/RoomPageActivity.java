@@ -5,6 +5,7 @@ import com.herewhite.sdk.domain.*;
 import com.netless.whiteboard.R;
 import com.netless.whiteboard.components.AppliancesTooBar;
 import com.netless.whiteboard.components.BroadcastManager;
+import com.netless.whiteboard.components.PPTPreviewsTable;
 import com.netless.whiteboard.components.SlidesTable;
 import com.netless.whiteboard.dialog.InviteDialog;
 
@@ -13,6 +14,7 @@ import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -32,6 +34,7 @@ public class RoomPageActivity extends AppCompatActivity {
     private WhiteSdk whiteSdk;
     private Room room;
     private SlidesTable slidesTable;
+    private PPTPreviewsTable pptPreviewsTable;
 
     private AppliancesTooBar appliancesTooBar;
     private BroadcastManager broadcastManager;
@@ -40,13 +43,13 @@ public class RoomPageActivity extends AppCompatActivity {
     private View panTopBar;
     private View panBottomBar;
     private DrawerLayout panMain;
-    private RelativeLayout panSlides;
 
     private Button btnGoBack;
     private Button btnInvite;
     private Button btnCamera;
     private Button btnReplay;
     private Button btnSlides;
+    private Button btnUpload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +62,13 @@ public class RoomPageActivity extends AppCompatActivity {
         this.panTopBar = findViewById(R.id.panTopBar);
         this.panBottomBar = findViewById(R.id.panBottomBar);
         this.panMain = findViewById(R.id.activity_main);
-        this.panSlides = findViewById(R.id.panSlides);
 
         this.btnGoBack = findViewById(R.id.btnGoBack);
         this.btnInvite = findViewById(R.id.btnInvite);
         this.btnCamera = findViewById(R.id.btnCamera);
         this.btnReplay = findViewById(R.id.btnReplay);
         this.btnSlides = findViewById(R.id.btnSlides);
+        this.btnUpload = findViewById(R.id.btnUpload);
 
         this.appliancesTooBar = new AppliancesTooBar(new HashMap<String, Button>() {{
             this.put("selector", (Button) findViewById(R.id.btnSelector));
@@ -91,9 +94,12 @@ public class RoomPageActivity extends AppCompatActivity {
         this.uuid = bundle.getString("uuid");
         this.roomToken = bundle.getString("roomToken");
 
+        Log.i("NTAG", "uuid " + this.uuid);
+
         RoomParams roomParams = new RoomParams(this.uuid, this.roomToken);
 
         this.slidesTable = new SlidesTable(this);
+        this.pptPreviewsTable = new PPTPreviewsTable(this);
         this.whiteSdk = new WhiteSdk(whiteBroadView, this, configuration);
         this.whiteSdk.joinRoom(roomParams, new AbstractRoomCallbacks() {
 
@@ -191,6 +197,12 @@ public class RoomPageActivity extends AppCompatActivity {
                 onClickInvite();
             }
         });
+        this.btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickUpload();
+            }
+        });
     }
 
     private void setupRoom(Room room) {
@@ -198,6 +210,7 @@ public class RoomPageActivity extends AppCompatActivity {
         this.appliancesTooBar.setRoom(room);
         this.broadcastManager.setRoom(room);
         this.slidesTable.setRoom(room);
+        this.pptPreviewsTable.setRoom(room);
 
         if (this.didLeave) {
             room.disconnect();
@@ -297,6 +310,10 @@ public class RoomPageActivity extends AppCompatActivity {
 
     private void onClickSlides() {
         panMain.openDrawer(Gravity.END);
+    }
+
+    private void onClickUpload() {
+        panMain.openDrawer(Gravity.START);
     }
 
     private void onClickInvite() {

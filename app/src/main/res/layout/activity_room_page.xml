@@ -6,15 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".activity.RoomPageActivity">
 
-    <include layout="@layout/room_page_body"/>
-    ​
+    <include layout="@layout/room_page_body"/>​
+
     <RelativeLayout
-        android:id="@+id/panSlides"
+        android:layout_width="235dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start">
+
+        <include layout="@layout/room_page_ppt"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:layout_gravity="right">
+        android:layout_gravity="end">
 
         <include layout="@layout/room_page_slides"/>
 
     </RelativeLayout>
+
 </android.support.v4.widget.DrawerLayout>
