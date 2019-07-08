@@ -8,11 +8,11 @@ public class PPTData {
     private boolean isDynamicPPT;
 
     public static final PPTData[] pptDatas = new PPTData[]{
-            new PPTData(R.drawable.ppt1, true),
-            new PPTData(R.drawable.ppt2, true),
-            new PPTData(R.drawable.ppt3, false),
-            new PPTData(R.drawable.ppt4, false),
-            new PPTData(R.drawable.ppt5, false),
+            new PPTData(R.drawable.img_ppt1, true),
+            new PPTData(R.drawable.img_ppt2, true),
+            new PPTData(R.drawable.img_ppt3, false),
+            new PPTData(R.drawable.img_ppt4, false),
+            new PPTData(R.drawable.img_ppt5, false),
     };
 
     private PPTData(int resourceId, boolean isDynamicPPT) {

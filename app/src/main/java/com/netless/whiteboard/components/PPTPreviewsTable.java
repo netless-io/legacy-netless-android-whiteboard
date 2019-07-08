@@ -45,7 +45,7 @@ public class PPTPreviewsTable extends ArrayAdapter<PPTData> {
         final ImageView imageView = view.findViewById(R.id.imgPreview);
 
         textDynamicPPT.setVisibility(pptData.isDynamicPPT() ? View.VISIBLE : View.INVISIBLE);
-        imageView.setImageResource(pptData.getResourceId());
+        imageView.setImageDrawable(this.activity.getResources().getDrawable(pptData.getResourceId(), this.activity.getApplication().getTheme()));
 
         return view;
     }
