@@ -20,7 +20,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -99,7 +98,7 @@ public class RoomPageActivity extends AppCompatActivity {
         RoomParams roomParams = new RoomParams(this.uuid, this.roomToken);
 
         this.slidesTable = new SlidesTable(this);
-        this.pptPreviewsTable = new PPTPreviewsTable(this);
+        this.pptPreviewsTable = new PPTPreviewsTable(this, this.panMain);
         this.whiteSdk = new WhiteSdk(whiteBroadView, this, configuration);
         this.whiteSdk.joinRoom(roomParams, new AbstractRoomCallbacks() {
 
