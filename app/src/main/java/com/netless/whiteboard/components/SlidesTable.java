@@ -31,6 +31,9 @@ public class SlidesTable extends ArrayAdapter<Scene> {
     private String scenePath = "";
     private Button btnAdd;
     private int sceneIndex = 0;
+    private boolean willChangeIndex = false;
+    private boolean shouldRefresh = false;
+    private boolean didRejectRefresh = false;
 
     public SlidesTable(AppCompatActivity activity) {
         super(activity, R.layout.room_page_slide);
@@ -64,20 +67,40 @@ public class SlidesTable extends ArrayAdapter<Scene> {
         this.room = room;
     }
 
-    public void setSceneState(SceneState sceneState) {
-        boolean willChangeIndex = false;
+    public void setShouldRefresh(boolean shouldRefresh) {
+        if (this.shouldRefresh != shouldRefresh) {
+            this.shouldRefresh = shouldRefresh;
 
+            if (shouldRefresh) {
+                if (this.didRejectRefresh) {
+                    this.refresh();
+                }
+            } else {
+                this.didRejectRefresh = false;
+            }
+        }
+    }
+
+    public void setSceneState(SceneState sceneState) {
         if (sceneState.getIndex() != sceneIndex) {
-            willChangeIndex = true;
+            this.willChangeIndex = true;
         }
         this.scenePath = sceneState.getScenePath();
         this.sceneIndex = sceneState.getIndex();
         this.scenes = sceneState.getScenes();
 
+        if (this.shouldRefresh) {
+            this.refresh();
+        } else {
+            this.didRejectRefresh = true;
+        }
+    }
+
+    private void refresh() {
         this.clear();
         this.addAll(this.scenes);
 
-        if (willChangeIndex) {
+        if (this.willChangeIndex) {
             int firstIndex = this.listView.getFirstVisiblePosition();
             int lastIndex = this.listView.getLastVisiblePosition();
 

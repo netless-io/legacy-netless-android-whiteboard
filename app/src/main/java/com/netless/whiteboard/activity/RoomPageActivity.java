@@ -11,10 +11,10 @@ import com.netless.whiteboard.dialog.InviteDialog;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -42,6 +42,7 @@ public class RoomPageActivity extends AppCompatActivity {
     private View panTopBar;
     private View panBottomBar;
     private DrawerLayout panMain;
+    private View layoutSlides;
 
     private Button btnGoBack;
     private Button btnInvite;
@@ -61,6 +62,7 @@ public class RoomPageActivity extends AppCompatActivity {
         this.panTopBar = findViewById(R.id.panTopBar);
         this.panBottomBar = findViewById(R.id.panBottomBar);
         this.panMain = findViewById(R.id.activity_main);
+        this.layoutSlides = findViewById(R.id.layoutSlides);
 
         this.btnGoBack = findViewById(R.id.btnGoBack);
         this.btnInvite = findViewById(R.id.btnInvite);
@@ -92,8 +94,6 @@ public class RoomPageActivity extends AppCompatActivity {
 
         this.uuid = bundle.getString("uuid");
         this.roomToken = bundle.getString("roomToken");
-
-        Log.i("NTAG", "uuid " + this.uuid);
 
         RoomParams roomParams = new RoomParams(this.uuid, this.roomToken);
 
@@ -169,6 +169,29 @@ public class RoomPageActivity extends AppCompatActivity {
                         showToast(sdkError.getMessage());
                     }
                 });
+            }
+        });
+        this.panMain.addDrawerListener(new DrawerLayout.DrawerListener() {
+
+            @Override
+            public void onDrawerSlide(@NonNull View view, float v) {}
+
+            @Override
+            public void onDrawerStateChanged(int i) {}
+
+
+            @Override
+            public void onDrawerOpened(@NonNull View view) {
+                if (view == layoutSlides) {
+                    slidesTable.setShouldRefresh(true);
+                }
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View view) {
+                if (view == layoutSlides) {
+                    slidesTable.setShouldRefresh(false);
+                }
             }
         });
 
@@ -308,7 +331,8 @@ public class RoomPageActivity extends AppCompatActivity {
     }
 
     private void onClickSlides() {
-        panMain.openDrawer(Gravity.END);
+        this.slidesTable.setShouldRefresh(true);
+        this.panMain.openDrawer(Gravity.END);
     }
 
     private void onClickUpload() {
