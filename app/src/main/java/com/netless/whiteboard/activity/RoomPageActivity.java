@@ -50,6 +50,8 @@ public class RoomPageActivity extends AppCompatActivity {
     private Button btnReplay;
     private Button btnSlides;
     private Button btnUpload;
+    private Button btnUp;
+    private Button btnDown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,8 @@ public class RoomPageActivity extends AppCompatActivity {
         this.btnReplay = findViewById(R.id.btnReplay);
         this.btnSlides = findViewById(R.id.btnSlides);
         this.btnUpload = findViewById(R.id.btnUpload);
+        this.btnUp = findViewById(R.id.btnUp);
+        this.btnDown = findViewById(R.id.btnDown);
 
         this.appliancesTooBar = new AppliancesTooBar(new HashMap<String, Button>() {{
             this.put("selector", (Button) findViewById(R.id.btnSelector));
@@ -225,6 +229,18 @@ public class RoomPageActivity extends AppCompatActivity {
                 onClickUpload();
             }
         });
+        this.btnUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickUpPage();
+            }
+        });
+        this.btnDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickDownPage();
+            }
+        });
     }
 
     private void setupRoom(Room room) {
@@ -301,6 +317,8 @@ public class RoomPageActivity extends AppCompatActivity {
             this.btnCamera.setEnabled(enable);
             this.btnReplay.setEnabled(enable);
             this.btnSlides.setEnabled(enable);
+            this.btnUp.setEnabled(enable);
+            this.btnDown.setEnabled(enable);
         }
     }
 
@@ -343,6 +361,14 @@ public class RoomPageActivity extends AppCompatActivity {
         InviteDialog dialog = new InviteDialog();
         dialog.setUUID(this.uuid);
         dialog.show(getSupportFragmentManager(), "invite dialog");
+    }
+
+    private void onClickUpPage() {
+        this.slidesTable.goToPreviousPage();
+    }
+
+    private void onClickDownPage() {
+        this.slidesTable.goToNextPage();
     }
 
     private void onRoomPhaseChange(RoomPhase phase) {
