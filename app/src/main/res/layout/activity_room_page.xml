@@ -18,6 +18,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/layoutSlides"
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="end">
