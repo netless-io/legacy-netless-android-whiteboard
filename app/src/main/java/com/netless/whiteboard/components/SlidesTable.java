@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,7 @@ public class SlidesTable extends ArrayAdapter<Scene> {
         super(activity, R.layout.room_page_slide);
         this.activity = activity;
         this.btnAdd = activity.findViewById(R.id.btnAdd);
-        this.listView = activity.findViewById(R.id.listView);
+        this.listView = activity.findViewById(R.id.slidesListView);
         this.listView.setAdapter(this);
         this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,6 +85,11 @@ public class SlidesTable extends ArrayAdapter<Scene> {
                 this.listView.setSelection(this.sceneIndex);
             }
         }
+    }
+
+    @Override
+    public int getCount() {
+        return this.scenes.length;
     }
 
     @Override
