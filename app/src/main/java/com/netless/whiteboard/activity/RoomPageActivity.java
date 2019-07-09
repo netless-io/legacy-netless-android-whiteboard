@@ -254,6 +254,8 @@ public class RoomPageActivity extends AppCompatActivity {
             room.disconnect();
 
         } else {
+            this.setupCamera(room);
+
             room.getMemberState(new Promise<MemberState>() {
 
                 @Override
@@ -295,6 +297,12 @@ public class RoomPageActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void setupCamera(Room room) {
+        RectangleConfig config = new RectangleConfig(-480.0, -270.0, 960.0, 540.0);
+        config.setAnimationMode(AnimationMode.Immediately);
+        room.moveCameraToContainer(config);
     }
 
     private void setButtonsEnable(boolean enable) {
