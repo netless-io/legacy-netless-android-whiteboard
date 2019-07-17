@@ -177,19 +177,11 @@ public class SlidesTable extends ArrayAdapter<Scene> {
     }
 
     public void goToPreviousPage() {
-        int index = this.sceneIndex;
-        if (index > 0) {
-            index --;
-        }
-        this.room.setScenePath(this.getScenePathWithIndex(index));
+        this.room.pptPreviousStep();
     }
 
     public void goToNextPage() {
-        int index = this.sceneIndex;
-        if (index < this.scenes.length - 1) {
-            index ++;
-        }
-        this.room.setScenePath(this.getScenePathWithIndex(index));
+        this.room.pptNextStep();
     }
 
     private void removeScene(int index) {
