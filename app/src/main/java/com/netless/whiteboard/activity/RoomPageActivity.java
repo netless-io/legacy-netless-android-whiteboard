@@ -256,46 +256,17 @@ public class RoomPageActivity extends AppCompatActivity {
         } else {
             this.setupCamera(room);
 
-            room.getMemberState(new Promise<MemberState>() {
+            MemberState memberState = room.getMemberState();
+            String applianceName = memberState.getCurrentApplianceName();
+            int[] sdkColor = memberState.getStrokeColor();
+            appliancesTooBar.setState(applianceName, sdkColor);
 
-                @Override
-                public void then(MemberState memberState) {
-                    String applianceName = memberState.getCurrentApplianceName();
-                    int[] sdkColor = memberState.getStrokeColor();
-                    appliancesTooBar.setState(applianceName, sdkColor);
-                }
+            BroadcastState broadcastState = room.getBroadcastState();
+            ViewMode viewMode = broadcastState.getMode();
+            boolean hasBroadcaster = broadcastState.getBroadcasterInformation() != null;
+            broadcastManager.setState(viewMode, hasBroadcaster);
 
-                @Override
-                public void catchEx(SDKError sdkError) {
-                    showToast(sdkError.getMessage());
-                }
-            });
-            room.getBroadcastState(new Promise<BroadcastState>() {
-
-                @Override
-                public void then(BroadcastState broadcastState) {
-                    final ViewMode viewMode = broadcastState.getMode();
-                    final boolean hasBroadcaster = broadcastState.getBroadcasterInformation() != null;
-                    broadcastManager.setState(viewMode, hasBroadcaster);
-                }
-
-                @Override
-                public void catchEx(SDKError sdkError) {
-                    showToast(sdkError.getMessage());
-                }
-            });
-            room.getSceneState(new Promise<SceneState>() {
-
-                @Override
-                public void then(SceneState sceneState) {
-                    slidesTable.setSceneState(sceneState);
-                }
-
-                @Override
-                public void catchEx(SDKError sdkError) {
-                    showToast(sdkError.getMessage());
-                }
-            });
+            slidesTable.setSceneState(room.getSceneState());
         }
     }
 
