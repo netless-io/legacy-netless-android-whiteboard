@@ -16,7 +16,6 @@ import com.herewhite.sdk.WhiteSdkConfiguration;
 import com.herewhite.sdk.domain.DeviceType;
 import com.herewhite.sdk.domain.PlayerConfiguration;
 import com.herewhite.sdk.domain.PlayerPhase;
-import com.herewhite.sdk.domain.PlayerTimeInfo;
 import com.herewhite.sdk.domain.Promise;
 import com.herewhite.sdk.domain.SDKError;
 import com.netless.whiteboard.R;
@@ -26,8 +25,6 @@ public class ReplayPageActivity extends AppCompatActivity {
     private static final int SEEK_BAR_SCALE_COUNT = 1000;
 
     private Player player;
-    private long beginTimestamp;
-    private long timeDuration;
 
     private boolean didLeave = false;
     private boolean isPlaying = false;
@@ -92,29 +89,7 @@ public class ReplayPageActivity extends AppCompatActivity {
 
             @Override
             public void then(final Player player) {
-                player.getPlayerTimeInfo(new Promise<PlayerTimeInfo>() {
-                    @Override
-                    public void then(final PlayerTimeInfo playerTimeInfo) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                beginTimestamp = playerTimeInfo.getBeginTimestamp();
-                                timeDuration = playerTimeInfo.getTimeDuration();
-                                setupPlayer(player);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void catchEx(final SDKError sdkError) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                showToast(sdkError.getMessage());
-                            }
-                        });
-                    }
-                });
+                setupPlayer(player);
             }
 
             @Override
@@ -206,7 +181,7 @@ public class ReplayPageActivity extends AppCompatActivity {
 
     private void onPlayerScheduleTimeChanged(long time) {
         if (!this.isTracking) {
-            double progressRate = (double) time / (double) this.timeDuration;
+            double progressRate = (double) time / (double) this.player.getPlayerTimeInfo().getTimeDuration();
             int progress = (int) (progressRate * SEEK_BAR_SCALE_COUNT);
             this.seekBar.setProgress(progress);
         }
@@ -214,7 +189,7 @@ public class ReplayPageActivity extends AppCompatActivity {
 
     private void onSeekTo(long time) {
         double progressRate = (double) time / (double) SEEK_BAR_SCALE_COUNT;
-        long progressTime = (int) (progressRate * this.timeDuration);
+        long progressTime = (int) (progressRate * this.player.getPlayerTimeInfo().getTimeDuration());
         this.player.seekToScheduleTime(progressTime);
     }
 
